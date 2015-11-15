@@ -1,14 +1,18 @@
 var VideoStream = (function(){
   'use strict';
 
+  // @todo Miganie
+  // @todo _private scope
+
   /**
    *
    * @param {Object} elements
    * @param {Object} size
    * @param {Function} onProcess
+   * @param {Function} onDrawFrame
    * @constructor
    */
-  var VideoStreamClass = function(elements, size, onProcess){
+  var VideoStreamClass = function(elements, size, onProcess, onDrawFrame){
     /**
      *
      * @type {Object}
@@ -29,6 +33,12 @@ var VideoStream = (function(){
       w: size.w || 480,
       h: size.h || 320
     };
+
+    /**
+     *
+     * @type {Function}
+     */
+    this.onDrawFrame = onDrawFrame || function(){};
 
     /**
      *
@@ -149,6 +159,8 @@ var VideoStream = (function(){
    */
   VideoStreamClass.prototype.drawFrameOnCanvas = function(){
     this.ctx.drawImage(this.elems.video, 0, 0);
+
+    this.onDrawFrame.call(this, this.ctx);
   };
 
   return VideoStreamClass;
