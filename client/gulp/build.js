@@ -63,7 +63,7 @@ module.exports = function(options){
   gulp.task('dist-minimalize', function(cb){
     runSequence(
       ['dist-minimalize-action'],
-      //['dist-minimalize-clear'],
+      ['dist-minimalize-clear'],
       cb
     );
   });
@@ -71,9 +71,16 @@ module.exports = function(options){
   /**
    * Clear not need files after dist-minimalize
    */
-  //gulp.task('dist-minimalize-clear', function(cb){
-  //  del([options.dist + '/js/modules', options.dist + '/styles/styles.css'], cb);
-  //});
+  gulp.task('dist-minimalize-clear', function(cb){
+    del(
+      [
+        options.dist + '/js/app.js',
+        options.dist + '/js/services',
+        options.dist + '/styles/styles.css'
+      ],
+      cb
+    );
+  });
 
   /**
    * dist-minimalize main action
