@@ -53,6 +53,41 @@ var VideoStream = (function(){
   };
 
   /**
+   * @param {MediaStreamConstaints} constraints
+   * @param {Function} successCallback
+   * @param {Function} errorCallback
+   * @returns {Function}
+   */
+  VideoStreamClass.prototype.getUserMedia = function(constraints, successCallback, errorCallback){
+    var n = navigator;
+    
+    if(n.getUserMedia){
+      return n.getUserMedia.apply(n, arguments);
+    }
+    if(n.webkitGetUserMedia){
+      return n.webkitGetUserMedia.apply(n, arguments);
+    }
+    if(n.mozGetUserMedia){
+      return n.mozGetUserMedia.apply(n, arguments);
+    }
+    if(n.msGetUserMedia){
+      return n.msGetUserMedia.apply(n, arguments);
+    }
+
+    return null;
+  };
+
+  /**
+   *
+   * @returns {Boolean}
+   */
+  VideoStreamClass.prototype.hasUserMedia = function(){
+    var n = navigator;
+
+    return  !!(n.getUserMedia || n.webkitGetUserMedia || n.mozGetUserMedia || n.msGetUserMedia);
+  };
+
+  /**
    * @param {Object} elements
    */
   VideoStreamClass.prototype.storeElements = function(elements){
@@ -68,8 +103,12 @@ var VideoStream = (function(){
    *
    */
   VideoStreamClass.prototype.createVideoStream = function(){
-    // @todo change 'webkit' prefix
-    navigator.webkitGetUserMedia(
+    if(false === this.hasUserMedia()){
+      console.log('Your browser has`t got navigator.getUserMedia. Try in Chrome');
+      return;
+    }
+
+    this.getUserMedia(
       {
         video: {
           mandatory: {
