@@ -47,7 +47,7 @@ var VideoStream = (function(){
     hasUserMedia: function(){
       var n = navigator;
 
-      return  !!(n.getUserMedia || n.webkitGetUserMedia || n.mozGetUserMedia || n.msGetUserMedia);
+      return !!(n.getUserMedia || n.webkitGetUserMedia || n.mozGetUserMedia || n.msGetUserMedia);
     },
 
     /**
