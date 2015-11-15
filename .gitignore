@@ -1,0 +1,11 @@
+# IDE
+.idea/
+
+# Client
+client/node_modules/
+client/bower_components/
+client/.tmp/
+client/dist/
+
+# Server
+server/node_modules/

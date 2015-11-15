@@ -1,0 +1,24 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
+    title Real time face detection
+    // build:css(dist) styles/styles.min.css
+    link(rel='stylesheet', href='styles/styles.css')
+    // endbuild
+  body
+    h1 Real time face detection
+
+    video(autoplay)
+    canvas
+
+    // build:js(dist) js/all.min.js
+
+    // bower:js
+    // run `gulp inject` to automatically populate bower script dependencies
+    // endbower
+
+    script(src="js/services/VideoStream.js")
+    script(src="js/app.js")
+    // endbuild
