@@ -20,9 +20,6 @@ module.exports = (function(){
      * @returns {Promise}
      */
     detectObjects: function(data, imageMatrix, options){
-      console.log(data);
-      console.log(typeof data);
-
       return new Promise(function(resolve, reject){
         imageMatrix.detectObject(data, options, function(err, objects){
           if(err){
@@ -60,6 +57,8 @@ module.exports = (function(){
 
         _private.detectFaces(imageMatrix, {})
           .then(function(faces){
+            console.log('detected', faces);
+
             socket.emit('detected', faces);
           })
       });
