@@ -12,7 +12,7 @@ var io        = require('socket.io')(server);
 
 io.set('origins', '*:*');
 
-faceDetection.start(io);
+faceDetection(io);
 
 server.listen(envCfg.port);
 

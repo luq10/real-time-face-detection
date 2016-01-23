@@ -65,17 +65,15 @@ module.exports = (function(){
     }
   };
 
-  return {
-    /**
-     *
-     * @param {Object} io
-     */
-    start: function(io){
-      io.on('connection', function(socket){
-        console.log('connected', socket.id);
+  /**
+   *
+   * @param {Object} io
+   */
+  return function(io){
+    io.on('connection', function(socket){
+      console.log('connected', socket.id);
 
-        socket.on('detect', _private.onDetect.bind(this, socket));
-      }.bind(this));
-    }
+      socket.on('detect', _private.onDetect.bind(this, socket));
+    }.bind(this));
   }
 }());
