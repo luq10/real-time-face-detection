@@ -39,41 +39,37 @@ module.exports = (function(){
      */
     detectFaces: function(imageMatrix, options){
       return _private.detectObjects(opencv.FACE_CASCADE, imageMatrix, options);
+    }
+  };
+
+  return {
+    /**
+     *
+     * @param {String} base64Image
+     */
+    detectFromBase64Image: function(base64Image){
+      var decodedImage = new Buffer(base64Image.replace(/^data:image\/png;base64,/, ""), 'base64');
+
+      return this.detectFromImage(decodedImage);
     },
 
     /**
      *
-     * @param {Object} socket
-     * @param {String} base64Image
+     * @param image
      */
-    onDetect: function(socket, base64Image){
-      var decodedImage = new Buffer(base64Image.replace(/^data:image\/png;base64,/, ""), 'base64');
+    detectFromImage: function(image){
+      return new Promise(function(resolve, reject){
+        opencv.readImage(image, function(err, imageMatrix){
+          if(err){
+            return reject(new Error('Can`t read image'));
+          }
 
-      opencv.readImage(decodedImage, function(err, imageMatrix){
-        if(err){
-          console.log('Can`t read image');
-          return;
-        }
-
-        _private.detectFaces(imageMatrix, {})
-          .then(function(faces){
-            console.log('detected', faces);
-
-            socket.emit('detected', faces);
-          })
+          return _private.detectFaces(imageMatrix, {})
+            .then(function(faces){
+              return resolve(faces);
+            })
+        });
       });
     }
-  };
-
-  /**
-   *
-   * @param {Object} io
-   */
-  return function(io){
-    io.on('connection', function(socket){
-      console.log('connected', socket.id);
-
-      socket.on('detect', _private.onDetect.bind(this, socket));
-    }.bind(this));
   }
 }());

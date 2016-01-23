@@ -12,7 +12,20 @@ var io        = require('socket.io')(server);
 
 io.set('origins', '*:*');
 
-faceDetection(io);
+//faceDetection(io);
+
+io.on('connection', function(socket){
+  console.log('connected', socket.id);
+
+  socket.on('detect', function(base64Image){
+    faceDetection.detectFromBase64Image(base64Image)
+      .then(function(faces){
+        console.log('detected', faces);
+
+        socket.emit('detected', faces);
+      })
+  });
+}.bind(this));
 
 server.listen(envCfg.port);
 
