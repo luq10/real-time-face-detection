@@ -12,8 +12,6 @@ var io        = require('socket.io')(server);
 
 io.set('origins', '*:*');
 
-//faceDetection(io);
-
 io.on('connection', function(socket){
   console.log('connected', socket.id);
 
